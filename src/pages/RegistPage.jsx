@@ -20,11 +20,15 @@ const RegistPage = () => {
     return regexr.test(userId);
   };
 
-  const registUser = async (e) => {
+  const registUser = (e) => {
     e.preventDefault();
-
-    if (!checkEmailId(userId)) {
+    if (!checkEmailId(userId.value)) {
       alert('아이디는 이메일 형식으로 작성해주세요');
+      return;
+    }
+
+    if (userPw.value !== userPwConfirm.value) {
+      alert('비밀번호 확인이 일치하지 않습니다.');
       return;
     }
 
@@ -35,13 +39,19 @@ const RegistPage = () => {
       token,
     };
 
-    await axios.post('http://localhost:4000/users', payload);
+    // await axios.post('http://localhost:4000/users', payload);
   };
   return (
     <CommonTemplate>
       <h2>회원가입</h2>
       <RegistForm onSubmit={registUser}>
-        <input id="userId" type="id" placeholder="아이디" autoComplete="off" />
+        <input
+          id="userId"
+          type="id"
+          placeholder="아이디"
+          autoComplete="off"
+          onChange={userId.onChange}
+        />
         <input
           id="password"
           type="password"
@@ -63,7 +73,7 @@ const RegistPage = () => {
           autoComplete="off"
           onChange={nickname.onChange}
         />
-        <button id="registBtn" className="regist-btn">
+        <button id="registBtn" className="regist-btn" type="submit">
           회원가입
         </button>
       </RegistForm>

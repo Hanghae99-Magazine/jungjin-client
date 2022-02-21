@@ -1,43 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CommonTemplate from '../components/common/CommonTemplate';
 import useInputValue from '../hooks/useInputValue';
 import { getCookie, setCookie } from '../shared/Cookie';
+import axios from 'axios';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [token, setToken] = useState(false);
 
   const userId = useInputValue('');
   const userPw = useInputValue('');
 
-  const onSubmit = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    setCookie('user_id', `${userId.value}`, 3);
-    const payload = {
-      userId: userId.value,
-      userPw: userPw.value,
-    };
+    setCookie('myToken', `${userId.value}`, 3);
+    // const payload = {
+    //   userId: userId.value,
+    //   userPw: userPw.value,
+    // };
+
+    const res = await axios.get(
+      `http://localhost:4000/users?userId=${userId.value}&userPw=${userPw.value}`,
+    );
+    if (!res.data.length) {
+      alert('가입되지 않은 회원입니다.');
+      return;
+    }
 
     navigate(-1);
   };
+
+  useEffect(() => {
+    //token
+    let myToken = getCookie('myToken');
+    myToken ? setToken(true) : setToken(false);
+    if (token) {
+      navigate('/');
+    }
+  }, [token]);
   return (
     <CommonTemplate>
       <h2>로그인</h2>
-      <LoginForm onSubmit={onSubmit}>
+      <LoginForm onSubmit={loginUser}>
         <input
           id="userId"
           type="id"
           placeholder="아이디"
           autoComplete="off"
-          onChange={userId.onChnage}
+          onChange={userId.onChange}
         />
         <input
           id="password"
           type="password"
           placeholder="비밀번호"
           autoComplete="off"
-          onChange={userPw.onChnage}
+          onChange={userPw.onChange}
         />
         <button id="registBtn" className="login-btn" type="submit">
           로그인

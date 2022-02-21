@@ -20,10 +20,21 @@ const RegistPage = () => {
     return regexr.test(userId);
   };
 
+  // 아이디 중복 체크
   const validateId = async (userId) => {
     const res = await axios.get(`http://localhost:4000/users?userId=${userId}`);
-    console.log(res.data.length);
-    return res.data.length;
+    const validate = res.data ? true : false;
+
+    return validate;
+  };
+
+  const validateNickname = async (nickname) => {
+    const res = await axios.get(
+      `http://localhost:4000/users?nickname=${nickname}`,
+    );
+    const validate = res.data ? true : false;
+
+    return validate;
   };
 
   const registUser = async (e) => {
@@ -33,13 +44,18 @@ const RegistPage = () => {
       return;
     }
 
-    if (validateId(userId.value) === 1) {
+    if (validateId(userId.value)) {
       alert('존재하는 아이디입니다.');
       return;
     }
 
     if (userPw.value !== userPwConfirm.value) {
       alert('비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
+    if (validateNickname(nickname.value)) {
+      alert('존재하는 닉네임입니다.');
       return;
     }
 
@@ -51,6 +67,7 @@ const RegistPage = () => {
     };
 
     await axios.post('http://localhost:4000/users', payload);
+    alert('회원가입 완료');
   };
   return (
     <CommonTemplate>

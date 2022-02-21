@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import CommonTemplate from '../components/common/CommonTemplate';
 import useInputValue from '../hooks/useInputValue';
+import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../shared/Cookie';
 
 const RegistPage = () => {
+  const navigate = useNavigate();
+  const [token, setToken] = useState(false);
+
   const userId = useInputValue('');
   const nickname = useInputValue('');
   const userPw = useInputValue('');
   const userPwConfirm = useInputValue('');
-
-  // 임시 토큰
-  const token = 1;
 
   // 이메일 형식 체크
   const checkEmailId = (userId) => {
@@ -22,29 +24,36 @@ const RegistPage = () => {
 
   // 아이디 중복 체크
   const validateId = async (userId) => {
-    const res = await axios.get(`http://localhost:4000/users?userId=${userId}`);
-    const validate = res.data ? true : false;
-
-    return validate;
+    console.log(userId);
+    const res = await axios.get(
+      `http://localhost:4000/users/?userId=${userId}`,
+    );
+    return res.data.length;
   };
 
   const validateNickname = async (nickname) => {
     const res = await axios.get(
       `http://localhost:4000/users?nickname=${nickname}`,
     );
-    const validate = res.data ? true : false;
-
-    return validate;
+    return res.data.length;
   };
 
   const registUser = async (e) => {
     e.preventDefault();
+    if (
+      userId.value === '' ||
+      userPw.value === '' ||
+      userPwConfirm.value === '' ||
+      nickname.value === ''
+    ) {
+      alert('양식을 채워주세요');
+    }
     if (!checkEmailId(userId.value)) {
       alert('아이디는 이메일 형식으로 작성해주세요');
       return;
     }
-
-    if (validateId(userId.value)) {
+    console.log(validateId(userId.value));
+    if (await validateId(userId.value)) {
       alert('존재하는 아이디입니다.');
       return;
     }
@@ -54,7 +63,7 @@ const RegistPage = () => {
       return;
     }
 
-    if (validateNickname(nickname.value)) {
+    if (await validateNickname(nickname.value)) {
       alert('존재하는 닉네임입니다.');
       return;
     }
@@ -63,12 +72,21 @@ const RegistPage = () => {
       userId: userId.value,
       nickname: nickname.value,
       userPw: userPw.value,
-      token,
     };
 
     await axios.post('http://localhost:4000/users', payload);
     alert('회원가입 완료');
+    navigate('/login');
   };
+
+  useEffect(() => {
+    //token
+    let myToken = getCookie('myToken');
+    myToken ? setToken(true) : setToken(false);
+    if (token) {
+      navigate('/');
+    }
+  }, [token]);
   return (
     <CommonTemplate>
       <h2>회원가입</h2>

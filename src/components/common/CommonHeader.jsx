@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getCookie, deleteCookie } from '../../shared/Cookie';
 
 const CommonHeader = () => {
+  const [token, setToken] = useState(false);
   const navigate = useNavigate();
 
   const routeLogin = () => {
@@ -12,14 +14,33 @@ const CommonHeader = () => {
     navigate('/regist');
   };
 
+  const handleLogOutBtn = () => {
+    deleteCookie('user_id');
+    setToken(false);
+  };
+
+  useEffect(() => {
+    let cookie = getCookie('user_id');
+
+    cookie ? setToken(true) : setToken(false);
+  }, []);
+
   return (
     <HeaderWrapper>
       <div className="main-logo">
         <p>Magazine</p>
       </div>
       <nav className="right-nav">
-        <button onClick={routeLogin}>로그인</button>
-        <button onClick={routeRegist}>회원가입</button>
+        {!token ? (
+          <>
+            <button onClick={routeLogin}>로그인</button>
+            <button onClick={routeRegist}>회원가입</button>
+          </>
+        ) : (
+          <>
+            <button onClick={handleLogOutBtn}>로그아웃</button>
+          </>
+        )}
       </nav>
     </HeaderWrapper>
   );

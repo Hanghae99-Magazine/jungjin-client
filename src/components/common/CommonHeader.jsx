@@ -15,12 +15,12 @@ const CommonHeader = () => {
   };
 
   const handleLogOutBtn = () => {
-    deleteCookie('user_id');
+    deleteCookie('myToken');
     setToken(false);
   };
 
   useEffect(() => {
-    let cookie = getCookie('user_id');
+    let cookie = getCookie('myToken');
 
     cookie ? setToken(true) : setToken(false);
   }, []);

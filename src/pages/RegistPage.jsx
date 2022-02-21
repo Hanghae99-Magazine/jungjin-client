@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import CommonTemplate from '../components/common/CommonTemplate';
@@ -18,13 +18,12 @@ const RegistPage = () => {
   // 이메일 형식 체크
   const checkEmailId = (userId) => {
     const regexr =
-      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+      /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     return regexr.test(userId);
   };
 
   // 아이디 중복 체크
   const validateId = async (userId) => {
-    console.log(userId);
     const res = await axios.get(
       `http://localhost:4000/users/?userId=${userId}`,
     );
@@ -52,7 +51,6 @@ const RegistPage = () => {
       alert('아이디는 이메일 형식으로 작성해주세요');
       return;
     }
-    console.log(validateId(userId.value));
     if (await validateId(userId.value)) {
       alert('존재하는 아이디입니다.');
       return;
@@ -86,7 +84,7 @@ const RegistPage = () => {
     if (token) {
       navigate('/');
     }
-  }, [token]);
+  }, [navigate, token]);
   return (
     <CommonTemplate>
       <h2>회원가입</h2>

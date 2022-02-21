@@ -39,7 +39,7 @@ const LoginPage = () => {
     if (token) {
       navigate('/');
     }
-  }, [token]);
+  }, [navigate, token]);
   return (
     <CommonTemplate>
       <h2>로그인</h2>

@@ -20,10 +20,21 @@ const RegistPage = () => {
     return regexr.test(userId);
   };
 
-  const registUser = (e) => {
+  const validateId = async (userId) => {
+    const res = await axios.get(`http://localhost:4000/users?userId=${userId}`);
+    console.log(res.data.length);
+    return res.data.length;
+  };
+
+  const registUser = async (e) => {
     e.preventDefault();
     if (!checkEmailId(userId.value)) {
       alert('아이디는 이메일 형식으로 작성해주세요');
+      return;
+    }
+
+    if (validateId(userId.value) === 1) {
+      alert('존재하는 아이디입니다.');
       return;
     }
 
@@ -39,7 +50,7 @@ const RegistPage = () => {
       token,
     };
 
-    // await axios.post('http://localhost:4000/users', payload);
+    await axios.post('http://localhost:4000/users', payload);
   };
   return (
     <CommonTemplate>

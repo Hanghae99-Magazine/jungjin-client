@@ -1,15 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const CommonHeader = () => {
+  const navigate = useNavigate();
+
+  const routeLogin = () => {
+    navigate('/login');
+  };
+  const routeRegist = () => {
+    navigate('/regist');
+  };
+
   return (
     <HeaderWrapper>
       <div className="main-logo">
         <p>Magazine</p>
       </div>
       <nav className="right-nav">
-        <button>로그인</button>
-        <button>회원가입</button>
+        <button onClick={routeLogin}>로그인</button>
+        <button onClick={routeRegist}>회원가입</button>
       </nav>
     </HeaderWrapper>
   );
@@ -35,8 +45,8 @@ const HeaderWrapper = styled.header`
     > button {
       margin-left: 1rem;
       padding: 0.8rem;
-      color: #000;
-      background-color: #eee;
+      color: #fff;
+      background-color: #000;
       font-size: 1.5rem;
       border-radius: 5px;
     }

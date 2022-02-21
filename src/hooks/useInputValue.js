@@ -3,10 +3,10 @@ import { useState } from 'react';
 export default (initialValue) => {
   const [value, setValue] = useState(initialValue);
 
-  const onChnage = (e) => {
+  const onChange = (e) => {
     let targetValue = e.target.value;
     setValue(targetValue);
   };
 
-  return { value, onChnage };
+  return { value, onChange };
 };

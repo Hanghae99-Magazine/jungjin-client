@@ -5,9 +5,13 @@ import CommonTemplate from '../components/common/CommonTemplate';
 import useInputValue from '../hooks/useInputValue';
 import { getCookie, setCookie } from '../shared/Cookie';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/modules/user';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [token, setToken] = useState(false);
 
   const userId = useInputValue('');
@@ -15,11 +19,6 @@ const LoginPage = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    setCookie('myToken', `${userId.value}`, 3);
-    // const payload = {
-    //   userId: userId.value,
-    //   userPw: userPw.value,
-    // };
 
     const res = await axios.get(
       `http://localhost:4000/users?userId=${userId.value}&userPw=${userPw.value}`,
@@ -29,7 +28,14 @@ const LoginPage = () => {
       return;
     }
 
-    navigate(-1);
+    const user = {
+      userId: userId.value,
+      userPw: userPw.value,
+    };
+
+    dispatch(login(user));
+
+    // navigate(-1);
   };
 
   useEffect(() => {

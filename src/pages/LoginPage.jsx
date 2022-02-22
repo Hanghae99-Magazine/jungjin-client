@@ -7,6 +7,7 @@ import { getCookie, setCookie } from '../shared/Cookie';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/modules/user';
+import CommonHeader from '../components/common/CommonHeader';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -30,12 +31,11 @@ const LoginPage = () => {
 
     const user = {
       userId: userId.value,
-      userPw: userPw.value,
     };
 
     dispatch(login(user));
 
-    // navigate(-1);
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -47,28 +47,31 @@ const LoginPage = () => {
     }
   }, [navigate, token]);
   return (
-    <CommonTemplate>
-      <h2>로그인</h2>
-      <LoginForm onSubmit={loginUser}>
-        <input
-          id="userId"
-          type="id"
-          placeholder="아이디"
-          autoComplete="off"
-          onChange={userId.onChange}
-        />
-        <input
-          id="password"
-          type="password"
-          placeholder="비밀번호"
-          autoComplete="off"
-          onChange={userPw.onChange}
-        />
-        <button id="loginBtn" className="login-btn" type="submit">
-          로그인
-        </button>
-      </LoginForm>
-    </CommonTemplate>
+    <>
+      <CommonHeader />
+      <CommonTemplate>
+        <h2>로그인</h2>
+        <LoginForm onSubmit={loginUser}>
+          <input
+            id="userId"
+            type="id"
+            placeholder="아이디"
+            autoComplete="off"
+            onChange={userId.onChange}
+          />
+          <input
+            id="password"
+            type="password"
+            placeholder="비밀번호"
+            autoComplete="off"
+            onChange={userPw.onChange}
+          />
+          <button id="loginBtn" className="login-btn" type="submit">
+            로그인
+          </button>
+        </LoginForm>
+      </CommonTemplate>
+    </>
   );
 };
 

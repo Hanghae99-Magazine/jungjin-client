@@ -5,6 +5,7 @@ import CommonTemplate from '../components/common/CommonTemplate';
 import useInputValue from '../hooks/useInputValue';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../shared/Cookie';
+import CommonHeader from '../components/common/CommonHeader';
 
 const RegistPage = () => {
   const navigate = useNavigate();
@@ -87,6 +88,7 @@ const RegistPage = () => {
   }, [navigate, token]);
   return (
     <CommonTemplate>
+      <CommonHeader />
       <h2>회원가입</h2>
       <RegistForm onSubmit={registUser}>
         <input

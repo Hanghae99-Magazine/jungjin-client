@@ -32,19 +32,9 @@ const PostItme = () => {
 };
 
 const PostItemWrapper = styled.li`
-  @media screen and (max-width: 3000px) {
-    width: 30%;
-  }
-
-  @media screen and (max-width: 1024px) {
-    width: 50%;
-  }
-  @media screen and (max-width: 768px) {
-    width: 80%;
-  }
-
+  width: 70%;
   padding: 0 1rem;
-  margin: 2rem;
+  margin: 2rem auto;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
   display: flex;

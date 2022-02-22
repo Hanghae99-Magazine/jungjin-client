@@ -14,6 +14,10 @@ const CommonHeader = () => {
     navigate('/regist');
   };
 
+  const routeWrite = () => {
+    navigate('/write');
+  };
+
   const handleLogOutBtn = () => {
     deleteCookie('myToken');
     setToken(false);
@@ -38,6 +42,7 @@ const CommonHeader = () => {
           </>
         ) : (
           <>
+            <button onClick={routeWrite}>새 글 작성</button>
             <button onClick={handleLogOutBtn}>로그아웃</button>
           </>
         )}

@@ -64,7 +64,7 @@ const LoginPage = () => {
           autoComplete="off"
           onChange={userPw.onChange}
         />
-        <button id="registBtn" className="login-btn" type="submit">
+        <button id="loginBtn" className="login-btn" type="submit">
           로그인
         </button>
       </LoginForm>

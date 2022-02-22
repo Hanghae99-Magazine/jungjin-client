@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { logOut } from '../../redux/modules/user';
 import { getCookie, deleteCookie } from '../../shared/Cookie';
 
 const CommonHeader = () => {
   const [token, setToken] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const routeMain = () => {
+    navigate('/');
+  };
 
   const routeLogin = () => {
     navigate('/login');
@@ -19,8 +26,8 @@ const CommonHeader = () => {
   };
 
   const handleLogOutBtn = () => {
-    deleteCookie('myToken');
     setToken(false);
+    dispatch(logOut());
   };
 
   useEffect(() => {
@@ -32,7 +39,7 @@ const CommonHeader = () => {
   return (
     <HeaderWrapper>
       <div className="main-logo">
-        <p>Magazine</p>
+        <h1 onClick={routeMain}>Magazine</h1>
       </div>
       <nav className="right-nav">
         {!token ? (
@@ -63,6 +70,9 @@ const HeaderWrapper = styled.header`
   align-items: center;
   background-color: #fff;
   margin-bottom: 2rem;
+  h1 {
+    cursor: pointer;
+  }
   .right-nav {
     display: flex;
     justify-content: center;

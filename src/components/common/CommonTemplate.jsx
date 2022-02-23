@@ -1,7 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const CommonTemplate = ({ children }) => {
-  return <main>{children}</main>;
+  return <Template>{children}</Template>;
 };
 
+const Template = styled.main`
+  h2 {
+    text-align: center;
+    margin: 4rem;
+    font-size: 2rem;
+    font-weight: bolder;
+  }
+`;
 export default CommonTemplate;

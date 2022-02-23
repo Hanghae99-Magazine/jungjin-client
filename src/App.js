@@ -4,11 +4,13 @@ import NotFoundPage from './pages/NotFoundPage';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import RegistPage from './pages/RegistPage';
+import WritePage from './pages/WritePage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/write" element={<WritePage />} />
         <Route path="/regist" element={<RegistPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<MainPage />} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PostItme = () => {
+const PostItme = ({ postData }) => {
   return (
     <PostItemWrapper>
       <div className="post-img-container">
@@ -10,41 +10,31 @@ const PostItme = () => {
           alt="postImg"
           className="post-img"
         />
+        {/* <img src={postData.post_img} alt="postImg" className="post-img" /> */}
       </div>
       <div className="post-info">
-        <p className="post-title">망고는 귀엽다</p>
-        <p className="post-content">망고는 귀엽다</p>
+        <p className="post-content">{postData.post_content}</p>
       </div>
       <div className="user-info-container">
         <div className="user-profile-info">
-          <span>닉네임 jungks</span>
+          <span>{postData.nickname}</span>
         </div>
         <div className="like">
           <div className="like-icon">좋아요</div>
         </div>
       </div>
       <div className="sub-info">
-        <span>몇시간 전 or 22-02-18</span>
-        <span>댓글 수 100</span>
+        <span>{postData.upload_date}</span>
+        <span>좋아요 수 {postData.post_like}</span>
       </div>
     </PostItemWrapper>
   );
 };
 
 const PostItemWrapper = styled.li`
-  @media screen and (max-width: 3000px) {
-    width: 30%;
-  }
-
-  @media screen and (max-width: 1024px) {
-    width: 50%;
-  }
-  @media screen and (max-width: 768px) {
-    width: 80%;
-  }
-
+  width: 70%;
   padding: 0 1rem;
-  margin: 2rem;
+  margin: 2rem auto;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
   display: flex;

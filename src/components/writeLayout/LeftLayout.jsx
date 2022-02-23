@@ -6,7 +6,7 @@ const LeftLayout = () => {
     <LeftLayoutWrapper>
       <div className="post-img-box">
         <img
-          src="https://via.placeholder.com/400x300"
+          src="https://via.placeholder.com/300x200/000000/FFFFFF/?text=upload image"
           alt="이미지를 업로드 해주세요"
           className="post-img"
         />

@@ -12,7 +12,7 @@ const DefaultLayout = () => {
       </div>
       <div className="post-img-box">
         <img
-          src="https://via.placeholder.com/400x300"
+          src="https://via.placeholder.com/300x200/000000/FFFFFF/?text=upload image"
           alt="postImg"
           className="post-img"
         />

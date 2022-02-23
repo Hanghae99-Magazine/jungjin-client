@@ -10,7 +10,6 @@ const PostList = () => {
   const postsList = useSelector(({ posts }) => {
     return posts.posts;
   });
-  console.log(postsList);
 
   useEffect(() => {
     dispatch(getPosts());

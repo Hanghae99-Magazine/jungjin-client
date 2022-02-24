@@ -4,6 +4,12 @@ const initialState = {
   posts: [],
   loading: false,
   err: null,
+
+  post: {
+    imgUrl: '',
+    content: '',
+    imgPosition: '',
+  },
 };
 
 const postsSlice = createSlice({
@@ -23,10 +29,29 @@ const postsSlice = createSlice({
       state.loading = false;
       state.err = action.payload;
     },
+    addPost(state) {
+      state.loading = true;
+      state.err = null;
+    },
+    addPostSuccess(state, action) {
+      state.loading = false;
+      state.err = null;
+      state.posts = action.payload;
+    },
+    addPostFailure(state, action) {
+      state.loading = false;
+      state.err = action.payload;
+    },
   },
 });
 
-export const { getPosts, getPostsSuccess, getPostsFailure } =
-  postsSlice.actions;
+export const {
+  getPosts,
+  getPostsSuccess,
+  getPostsFailure,
+  addPost,
+  addPostSuccess,
+  addPostFailure,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

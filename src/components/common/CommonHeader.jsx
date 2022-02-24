@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,7 +6,6 @@ import { checkLogin, logout } from '../../redux/modules/user';
 import { getCookie } from '../../shared/Cookie';
 
 const CommonHeader = () => {
-  console.log('1');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -15,8 +14,6 @@ const CommonHeader = () => {
       return user.isLogin;
     }),
   );
-
-  console.log(isLogin);
 
   const routeMain = () => {
     navigate('/');
@@ -43,7 +40,7 @@ const CommonHeader = () => {
       const nickname = sessionStorage.getItem('nickname');
       dispatch(checkLogin(nickname));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <HeaderWrapper>

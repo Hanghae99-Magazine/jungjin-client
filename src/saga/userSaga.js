@@ -1,27 +1,36 @@
 import * as userAPI from '../api/user';
 
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { login, logOut } from '../redux/modules/user';
+import { login, logout, checkLogin } from '../redux/modules/user';
 import { deleteCookie, setCookie } from '../shared/Cookie';
 
 //saga
 
 function* loginSaga(action) {
   try {
-    const user = yield call(() => userAPI.login(action.payload));
-    setCookie('myToken', 'sucess', 3);
-    console.log(user);
+    const res = yield call(() => userAPI.login(action.payload));
+    setCookie('mytoken', res.data.mytoken, 3);
+    sessionStorage.setItem('nickname', res.data.nickname);
     console.log(action.payload);
-    yield put({ type: `${action.type}Success`, payload: action.payload });
+    yield put({ type: `${action.type}Success`, payload: res.data.nickname });
   } catch (err) {
     yield put({ type: `${action.type}Failure`, payload: action.payload });
   }
 }
 
-function* logOutSaga(action) {
+function* logoutSaga(action) {
   try {
-    deleteCookie('myToken');
+    deleteCookie('mytoken');
+    sessionStorage.clear('nickname');
     yield put({ type: `${action.type}Success` });
+  } catch (err) {
+    yield put({ type: `${action.type}Failure`, payload: action.payload });
+  }
+}
+
+function* checkLoginSaga(action) {
+  try {
+    yield put({ type: `${action.type}Success`, payload: action.payload });
   } catch (err) {
     yield put({ type: `${action.type}Failure`, payload: action.payload });
   }
@@ -31,5 +40,6 @@ function* logOutSaga(action) {
 
 export function* userSaga() {
   yield takeLatest(login, loginSaga);
-  yield takeLatest(logOut, logOutSaga);
+  yield takeLatest(logout, logoutSaga);
+  yield takeLatest(checkLogin, checkLoginSaga);
 }

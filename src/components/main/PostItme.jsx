@@ -5,12 +5,7 @@ const PostItme = ({ postData }) => {
   return (
     <PostItemWrapper>
       <div className="post-img-container">
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/images/mango.jpeg`}
-          alt="postImg"
-          className="post-img"
-        />
-        {/* <img src={postData.post_img} alt="postImg" className="post-img" /> */}
+        <img src={postData.post_img} alt="postImg" className="post-img" />
       </div>
       <div className="post-info">
         <p className="post-content">{postData.post_content}</p>

@@ -23,16 +23,29 @@ const userSlice = createSlice({
       state.isLogin = false;
       state.err = action.payload;
     },
-    logOut(state) {
+    logout(state) {
       state.isLogin = false;
       state.err = null;
     },
-    logOutSuccess(state) {
+    logoutSuccess(state) {
       state.isLogin = false;
       state.err = null;
       state.user = null;
     },
-    logOutFailure(state, action) {
+    logoutFailure(state, action) {
+      state.isLogin = false;
+      state.err = action.payload;
+    },
+    checkLogin(state) {
+      state.isLogin = true;
+      state.err = null;
+    },
+    checkLoginSuccess(state, action) {
+      state.isLogin = true;
+      state.err = null;
+      state.user = action.payload;
+    },
+    checkLoginFailure(state, action) {
       state.isLogin = false;
       state.err = action.payload;
     },
@@ -43,9 +56,12 @@ export const {
   login,
   loginSuccess,
   loginFailure,
-  logOut,
-  logOutSuccess,
-  logOutFailure,
+  logout,
+  logoutSuccess,
+  logoutFailure,
+  checkLogin,
+  checkLoginSuccess,
+  checkLoginFailure,
 } = userSlice.actions;
 
 export default userSlice.reducer;

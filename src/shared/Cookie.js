@@ -17,11 +17,11 @@ const setCookie = (name, value, exp = 5) => {
 };
 
 const deleteCookie = (name) => {
-  let date = new Date();
+  // let date = new Date();
 
-  date.setTime(date.getTime());
+  // date.setTime(date.getTime());
 
-  document.cookie = name + `=; expires=${date.toUTCString};`;
+  document.cookie = name + `=; expires=Thu, 01 Jan 1999 00:00:10 GMT;;path=/`;
 };
 
 export { getCookie, setCookie, deleteCookie };

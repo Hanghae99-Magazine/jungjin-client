@@ -1,16 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LeftLayout = () => {
+const LeftLayout = ({ imageSrc }) => {
   return (
     <LeftLayoutWrapper>
       <div className="post-img-box">
         <img
-          src="https://via.placeholder.com/300x200/000000/FFFFFF/?text=upload image"
+          src={
+            imageSrc
+              ? imageSrc
+              : 'https://via.placeholder.com/300x200/000000/FFFFFF/?text=upload image'
+          }
           alt="이미지를 업로드 해주세요"
           className="post-img"
         />
-        {/* <img src={postData.post_img} alt="postImg" className="post-img" /> */}
       </div>
       <div className="post-info">
         <textarea

@@ -1,16 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const RightLayout = () => {
+const RightLayout = ({ imageSrc }) => {
   return (
     <RightLayoutWrapper>
       <div className="post-img-box">
         <img
-          src="https://via.placeholder.com/300x200/000000/FFFFFF/?text=upload image"
+          src={
+            imageSrc
+              ? imageSrc
+              : 'https://via.placeholder.com/300x200/000000/FFFFFF/?text=upload image'
+          }
           alt="postImg"
           className="post-img"
         />
-        {/* <img src={postData.post_img} alt="postImg" className="post-img" /> */}
       </div>
       <div className="post-info">
         <textarea

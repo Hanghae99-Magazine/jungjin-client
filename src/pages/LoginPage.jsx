@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CommonTemplate from '../components/common/CommonTemplate';
-import { getCookie } from '../shared/Cookie';
 import CommonHeader from '../components/common/CommonHeader';
 import LoginForm from '../components/login/LoginForm';
 import { useSelector } from 'react-redux';
@@ -18,7 +17,7 @@ const LoginPage = () => {
       alert('이미 로그인 하셨습니다.');
       navigate('/');
     }
-  }, [isLogin]);
+  }, [isLogin, navigate]);
   return (
     <>
       <CommonHeader />

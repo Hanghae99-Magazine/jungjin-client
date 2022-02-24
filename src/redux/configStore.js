@@ -7,8 +7,10 @@ import user from './modules/user';
 import { userSaga } from '../saga/userSaga';
 import posts from './modules/posts';
 import { postsSaga } from '../saga/postsSaga';
+import image from './modules/image';
+import { imageSaga } from '../saga/imageSaga';
 
-const reducer = combineReducers({ user, posts });
+const reducer = combineReducers({ user, posts, image });
 
 export const sagaMiddleware = createSagaMiddleware();
 
@@ -24,7 +26,7 @@ if (devMode) {
 }
 
 export function* rootSaga() {
-  yield all([userSaga(), postsSaga()]);
+  yield all([userSaga(), postsSaga(), imageSaga()]);
 }
 
 export const store = configureStore({

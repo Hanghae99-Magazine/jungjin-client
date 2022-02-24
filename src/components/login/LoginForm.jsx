@@ -1,9 +1,9 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useInputValue from '../../hooks/useInputValue';
+import { login } from '../../redux/modules/user';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const LoginForm = () => {
   const userId = useInputValue('');
   const userPw = useInputValue('');
 
-  const loginUser = async (e) => {
+  const loginUser = (e) => {
     e.preventDefault();
 
     const user = {
@@ -20,11 +20,9 @@ const LoginForm = () => {
       user_pw: userPw.value,
     };
 
-    const res = await axios.post('http://3.36.75.239/login', user);
-    console.log(res);
-    // dispatch(login(user));
+    dispatch(login(user));
 
-    // navigate(-1);
+    navigate('/');
   };
   return (
     <LoginFormWrapper onSubmit={loginUser}>

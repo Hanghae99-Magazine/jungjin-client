@@ -1,12 +1,21 @@
 import * as postsAPI from '../api/posts';
 
-import { put, call, takeLatest, delay } from 'redux-saga/effects';
-import { getPosts } from '../redux/modules/posts';
+import { put, call, takeLatest } from 'redux-saga/effects';
+import { addPost, getPosts } from '../redux/modules/posts';
 
 function* getPostsSaga(action) {
   try {
     const postsData = yield call(() => postsAPI.getPosts());
-    yield put({ type: `${action.type}Success`, payload: postsData.data });
+    yield put({ type: `${action.type}Success`, payload: postsData.data.posts });
+  } catch (e) {
+    yield put({ type: `${action.type}Failure`, payload: action.payload });
+  }
+}
+
+function* addPostSaga(action) {
+  try {
+    yield call(() => postsAPI.addPost(action.payload));
+    yield put({ type: `${action.type}Success`, payload: action.payload });
   } catch (e) {
     yield put({ type: `${action.type}Failure`, payload: action.payload });
   }
@@ -14,4 +23,5 @@ function* getPostsSaga(action) {
 
 export function* postsSaga() {
   yield takeLatest(getPosts, getPostsSaga);
+  yield takeLatest(addPost, addPostSaga);
 }

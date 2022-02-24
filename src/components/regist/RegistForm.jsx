@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import * as userAPI from '../../api/user';
 import useInputValue from '../../hooks/useInputValue';
 
 const RegistForm = () => {
@@ -28,6 +28,7 @@ const RegistForm = () => {
       nickname.value === ''
     ) {
       alert('양식을 채워주세요');
+      return;
     }
     if (!checkEmailId(userId.value)) {
       alert('아이디는 이메일 형식으로 작성해주세요');
@@ -46,9 +47,10 @@ const RegistForm = () => {
       pw_check: userPwConfirm.value,
     };
 
-    const res = await axios.post('http://3.36.75.239/register', payload);
-    alert('회원가입 완료');
-    // navigate('/login');
+    const res = await userAPI.register(payload);
+
+    alert(res.data.msg);
+    navigate('/login');
   };
   return (
     <RegistFormWrapper onSubmit={registUser}>

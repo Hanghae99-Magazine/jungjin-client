@@ -36,7 +36,9 @@ const postsSlice = createSlice({
     addPostSuccess(state, action) {
       state.loading = false;
       state.err = null;
-      state.posts = action.payload;
+      state.post.imgUrl = action.payload.post_img;
+      state.post.content = action.payload.post_content;
+      state.post.imgPosition = action.payload.img_position;
     },
     addPostFailure(state, action) {
       state.loading = false;

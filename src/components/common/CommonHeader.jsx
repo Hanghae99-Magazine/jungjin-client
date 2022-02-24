@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { logOut } from '../../redux/modules/user';
-import { getCookie, deleteCookie } from '../../shared/Cookie';
+import { checkLogin, logout } from '../../redux/modules/user';
+import { getCookie } from '../../shared/Cookie';
 
 const CommonHeader = () => {
-  const [token, setToken] = useState(false);
+  console.log('1');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const isLogin = useCallback(
+    useSelector(({ user }) => {
+      return user.isLogin;
+    }),
+  );
+
+  console.log(isLogin);
 
   const routeMain = () => {
     navigate('/');
@@ -26,14 +34,15 @@ const CommonHeader = () => {
   };
 
   const handleLogOutBtn = () => {
-    setToken(false);
-    dispatch(logOut());
+    dispatch(logout());
   };
 
   useEffect(() => {
-    let cookie = getCookie('myToken');
-
-    cookie ? setToken(true) : setToken(false);
+    const mytoken = getCookie('mytoken');
+    if (mytoken) {
+      const nickname = sessionStorage.getItem('nickname');
+      dispatch(checkLogin(nickname));
+    }
   }, []);
 
   return (
@@ -42,7 +51,7 @@ const CommonHeader = () => {
         <h1 onClick={routeMain}>Magazine</h1>
       </div>
       <nav className="right-nav">
-        {!token ? (
+        {!isLogin ? (
           <>
             <button onClick={routeLogin}>로그인</button>
             <button onClick={routeRegist}>회원가입</button>

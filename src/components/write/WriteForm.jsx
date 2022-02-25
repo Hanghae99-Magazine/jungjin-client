@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { uploadImg } from '../../redux/modules/image';
 import useInputValue from '../../hooks/useInputValue';
 import { addPost } from '../../redux/modules/posts';
+import { v4 as uuidv4 } from 'uuid';
 
 const WriteForm = () => {
   const dispatch = useDispatch();
@@ -14,34 +15,16 @@ const WriteForm = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [Layout, setLayout] = useState('');
-  const postContent = useInputValue('');
+  const { value: postContent, onChange } = useInputValue('');
 
   const changeLayout = (e) => {
     setLayout(e.target.value);
   };
 
-  // AWS S3 연결을 위한 변수 할당
-  const S3_BUCKET = 'jungjinmagazine';
-  const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY_ID;
-  const SECRET_ACCESS_KEY = process.env.REACT_APP_S3_SECRET_ACCESS_KEY;
-  const REGION = 'ap-northeast-2';
-
-  // AWS config 설정
-  AWS.config.update({
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
-  });
-
-  // AWS S3 버킷 정보 설정
-  const myBucket = new AWS.S3({
-    params: { Bucket: S3_BUCKET },
-    region: REGION,
-  });
-
   // input type file 관리
   const handleFileInput = (e) => {
     const file = e.target.files[0];
-    const imgUrl = process.env.REACT_APP_IMAGE_URL;
+
     // 파일형식 예외처리
     if (!(file.type === 'image/jpeg' || file.type === 'image/png')) {
       alert('jpg, png 파일만 Upload 가능합니다.');
@@ -53,9 +36,6 @@ const WriteForm = () => {
       alert('3MB 이하만 업로드 가능');
       return;
     }
-    // console.log(imgUrl + 'upload/' + file.name);
-    dispatch(uploadImg(imgUrl + 'upload/' + file.name));
-
     setSelectedFile(file);
     encodeFileToBase64(file);
   };
@@ -72,43 +52,25 @@ const WriteForm = () => {
     });
   };
 
-  // S3 에 업로드 함수 구현
-  const uploadFile = (file) => {
-    const params = {
-      ACL: 'public-read',
-      Body: file,
-      Bucket: S3_BUCKET,
-      Key: 'upload/' + file.name,
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    myBucket.putObject(params).send((err) => {
-      if (err) console.log(err);
-    });
-  };
-
-  const ImgUrl = useSelector(({ image }) => {
-    return image.imgUrl;
-  });
-
-  const handleSubmit = () => {
-    uploadFile(selectedFile);
     if (!Layout) {
       alert('Layout을 선택해주세요');
       return;
     }
 
-    if (!postContent.value) {
+    if (!postContent) {
       alert('내용을 적어주세요');
       return;
     }
 
     const payload = {
+      file: selectedFile,
       img_position: Layout,
-      post_img: ImgUrl,
-      post_content: postContent.value,
+      post_img: '',
+      post_content: postContent,
     };
-
-    // await addPost(payload);
 
     dispatch(addPost(payload));
   };
@@ -133,7 +95,7 @@ const WriteForm = () => {
             <textarea
               className="post-content"
               placeholder="내용을 적어주세요"
-              onChange={postContent.onChange}
+              onChange={onChange}
             ></textarea>
           </div>
           <div className="post-img-box">

@@ -40,11 +40,13 @@ function* addPostSaga(action) {
   }`;
 
   const s3ImgUpload = (file) => {
+    console.log(file);
     const params = {
       ACL: 'public-read',
       Body: file,
       Bucket: S3_BUCKET,
       Key: 'upload/' + fileName,
+      ContentType: file.type,
     };
 
     myBucket

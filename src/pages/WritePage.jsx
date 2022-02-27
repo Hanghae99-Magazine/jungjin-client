@@ -1,15 +1,19 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import CommonHeader from '../components/common/CommonHeader';
 import CommonTemplate from '../components/common/CommonTemplate';
-import WriteForm from '../components/write/WriteForm';
+import AddForm from '../components/write/AddForm';
+import UpdateForm from '../components/write/UpdateForm';
 
 const WritePage = () => {
+  const params = useParams();
+  const { type } = params;
   return (
     <>
       <CommonHeader />
       <CommonTemplate>
-        <WriteForm />
+        {type === 'add' ? <AddForm /> : <UpdateForm />}
       </CommonTemplate>
     </>
   );

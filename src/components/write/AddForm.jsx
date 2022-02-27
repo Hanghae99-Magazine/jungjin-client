@@ -9,7 +9,7 @@ import useInputValue from '../../hooks/useInputValue';
 import { addPost } from '../../redux/modules/posts';
 import { v4 as uuidv4 } from 'uuid';
 
-const WriteForm = () => {
+const AddForm = () => {
   const dispatch = useDispatch();
 
   const [imageSrc, setImageSrc] = useState('');
@@ -208,4 +208,4 @@ const WriteFormWrapper = styled.form`
   }
 `;
 
-export default WriteForm;
+export default AddForm;

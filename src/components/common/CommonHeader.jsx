@@ -27,7 +27,7 @@ const CommonHeader = () => {
   };
 
   const routeWrite = () => {
-    navigate('/write');
+    navigate('/write/add');
   };
 
   const handleLogOutBtn = () => {

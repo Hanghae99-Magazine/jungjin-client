@@ -10,7 +10,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/write" element={<WritePage />} />
+        <Route path="/write/:type/:id" element={<WritePage />} />
+        <Route path="/write/:type" element={<WritePage />} />
         <Route path="/regist" element={<RegistPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<MainPage />} />

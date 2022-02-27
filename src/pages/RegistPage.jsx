@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
 import CommonTemplate from '../components/common/CommonTemplate';
-import useInputValue from '../hooks/useInputValue';
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from '../shared/Cookie';
+import { getCookie } from '../shared/cookie';
 import CommonHeader from '../components/common/CommonHeader';
 import RegistForm from '../components/regist/RegistForm';
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from '../shared/Cookie';
+import { getCookie } from '../shared/cookie';
 
 const client = axios.create();
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { checkLogin, logout } from '../../redux/modules/user';
-import { getCookie } from '../../shared/Cookie';
+import { getCookie } from '../../shared/cookie';
 
 const CommonHeader = () => {
   const navigate = useNavigate();

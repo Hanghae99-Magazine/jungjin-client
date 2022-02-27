@@ -4,9 +4,11 @@ import { AiFillDelete } from 'react-icons/ai';
 import { IoMdCreate } from 'react-icons/io';
 import { deletePost } from '../../api/posts';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getPostById } from '../../redux/modules/posts';
 
 const PostItme = ({ postData }) => {
-  console.log(postData);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const nickname = sessionStorage.getItem('nickname');
@@ -14,7 +16,6 @@ const PostItme = ({ postData }) => {
   const handleUpdateBtn = () => {
     navigate(`/write/update/${postData.post_id}`);
   };
-
   const handleDeleteBtn = async () => {
     await deletePost(postData.post_id);
     navigate('/');
@@ -30,7 +31,7 @@ const PostItme = ({ postData }) => {
         </div>
         {nickname === postData.nickname ? (
           <div className="update-container">
-            <IoMdCreate className="update-btn" />
+            <IoMdCreate className="update-btn" onClick={handleUpdateBtn} />
             <AiFillDelete className="delete-btn" onClick={handleDeleteBtn} />
           </div>
         ) : (

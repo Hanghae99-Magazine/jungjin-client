@@ -23,3 +23,14 @@ export const deletePost = async (post_id) => {
     alert(err.response.data.msg);
   }
 };
+
+export const getPostById = async (post_id) => {
+  try {
+    const res = await client.get(`/post/${post_id}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+  } catch (err) {
+    alert(err.response.data.msg);
+  }
+};

@@ -1,7 +1,7 @@
 import * as postsAPI from '../api/posts';
 
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { addPost, getPosts } from '../redux/modules/posts';
+import { addPost, getPosts, getPostById } from '../redux/modules/posts';
 
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,8 +27,8 @@ function* getPostsSaga(action) {
   try {
     const postsData = yield call(() => postsAPI.getPosts());
     yield put({ type: `${action.type}Success`, payload: postsData.data.posts });
-  } catch (e) {
-    yield put({ type: `${action.type}Failure`, payload: action.payload });
+  } catch (err) {
+    yield put({ type: `${action.type}Failure`, payload: err });
   }
 }
 
@@ -40,7 +40,6 @@ function* addPostSaga(action) {
   }`;
 
   const s3ImgUpload = (file) => {
-    console.log(file);
     const params = {
       ACL: 'public-read',
       Body: file,
@@ -63,12 +62,22 @@ function* addPostSaga(action) {
     action.payload.post_img = `${s3Url + '/upload/' + fileName}`;
     yield call(() => postsAPI.addPost(action.payload));
     yield put({ type: `${action.type}Success`, payload: action.payload });
-  } catch (e) {
-    yield put({ type: `${action.type}Failure`, payload: action.payload });
+  } catch (err) {
+    yield put({ type: `${action.type}Failure`, payload: err });
+  }
+}
+
+function* getPostByIdSaga(action) {
+  try {
+    const postData = yield call(() => postsAPI.getPostById(action.payload));
+    yield put({ type: `${action.type}Success`, payload: postData });
+  } catch (err) {
+    yield put({ type: `${action.type}Failure`, payload: err });
   }
 }
 
 export function* postsSaga() {
   yield takeLatest(getPosts, getPostsSaga);
   yield takeLatest(addPost, addPostSaga);
+  yield takeLatest(getPostById, getPostByIdSaga);
 }

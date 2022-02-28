@@ -1,22 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BsHeartFill } from 'react-icons/bs';
-import { fetchLike } from '../../api/like';
+import { useDispatch } from 'react-redux';
+import { fetchLike } from '../../redux/modules/like';
 
 const PostFooter = ({ postData }) => {
+  const dispatch = useDispatch();
   const uploadDate = postData.upload_date.split('T')[0];
 
-  const handleLikeBtn = async (post_id) => {
-    const res = await fetchLike(post_id);
-    console.log(res);
+  const handleLikeBtn = () => {
+    dispatch(fetchLike(postData.post_id));
   };
+
   return (
     <PostFooterWrapper>
       <div className="like-box">
-        <BsHeartFill
-          className="like-icon"
-          onClick={handleLikeBtn(postData.post_id)}
-        />
+        <BsHeartFill className="like-icon" onClick={handleLikeBtn} />
         <span>{postData.post_like}</span>
       </div>
       <div className="date-box">

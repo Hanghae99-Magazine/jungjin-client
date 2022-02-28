@@ -5,8 +5,7 @@ import { IoMdCreate } from 'react-icons/io';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { deletePost } from '../../api/posts';
-import { getPostById } from '../../redux/modules/posts';
+import { getPostById, deletePost, getPosts } from '../../redux/modules/posts';
 
 const PostHeader = ({ postData }) => {
   const dispatch = useDispatch();
@@ -19,9 +18,17 @@ const PostHeader = ({ postData }) => {
     navigate(`/write/update/${postData.post_id}`);
   };
 
-  const handleDeleteBtn = async () => {
-    await deletePost(postData.post_id);
-    navigate('/');
+  const handleDeleteBtn = () => {
+    const fileName = postData.post_img.split('/')[4];
+    const payload = {
+      post_id: postData.post_id,
+      fileName,
+    };
+    dispatch(deletePost(payload));
+    setTimeout(() => {
+      dispatch(getPosts());
+      navigate('/');
+    }, 200);
   };
   return (
     <PostHeaderWrapper className="user-info-container">

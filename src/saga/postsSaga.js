@@ -6,10 +6,12 @@ import {
   getPosts,
   getPostById,
   updatePost,
+  deletePost,
 } from '../redux/modules/posts';
 
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 // AWS S3 연결을 위한 변수 할당
 const S3_BUCKET = 'jungjinmagazine';
@@ -67,6 +69,8 @@ function* addPostSaga(action) {
     action.payload.post_img = `${s3Url + '/upload/' + fileName}`;
     yield call(() => postsAPI.addPost(action.payload));
     yield put({ type: `${action.type}Success`, payload: action.payload });
+    const postsData = yield call(() => postsAPI.getPosts());
+    yield put({ type: `getPostsSuccess`, payload: postsData.data.posts });
   } catch (err) {
     yield put({ type: `${action.type}Failure`, payload: err });
   }
@@ -113,9 +117,40 @@ function* updatePostSaga(action) {
   }
 }
 
+function* deletePostSaga(action) {
+  console.log(action);
+  const s3ImgDelete = (file) => {
+    console.log(file);
+    const params = {
+      // ACL: 'public-read',
+      // Body: file,
+      Bucket: S3_BUCKET,
+      Key: 'upload/' + action.payload.fileName,
+      // ContentType: file.type,
+    };
+
+    myBucket
+      .deleteObject(params)
+      .on('httpUploadProgress', (evt, res) => {})
+      .send((err, data) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+  };
+
+  try {
+    yield call(() => s3ImgDelete(action.payload.file));
+    yield call(() => postsAPI.deletePost(action.payload.post_id));
+    yield put({ type: `${action.type}Success`, payload: action.payload });
+  } catch (err) {
+    yield put({ type: `${action.type}Failure`, payload: err });
+  }
+}
 export function* postsSaga() {
   yield takeLatest(getPosts, getPostsSaga);
   yield takeLatest(addPost, addPostSaga);
   yield takeLatest(getPostById, getPostByIdSaga);
   yield takeLatest(updatePost, updatePostSaga);
+  yield takeLatest(deletePost, deletePostSaga);
 }

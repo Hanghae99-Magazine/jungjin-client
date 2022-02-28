@@ -74,6 +74,19 @@ const postsSlice = createSlice({
       state.loading = false;
       state.err = action.payload;
     },
+    deletePost(state, action) {
+      state.loading = true;
+      state.err = null;
+    },
+    deletePostSuccess(state, action) {
+      state.loading = false;
+      state.err = null;
+      state.post.postId = action.payload;
+    },
+    deletePostFailure(state, action) {
+      state.loading = false;
+      state.err = action.payload;
+    },
   },
 });
 
@@ -90,6 +103,9 @@ export const {
   updatePost,
   updatePostSuccess,
   updatePostFailure,
+  deletePost,
+  deletePostSuccess,
+  deletePostFailure,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -1,7 +1,12 @@
 import * as postsAPI from '../api/posts';
 
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { addPost, getPosts, getPostById } from '../redux/modules/posts';
+import {
+  addPost,
+  getPosts,
+  getPostById,
+  updatePost,
+} from '../redux/modules/posts';
 
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
@@ -76,8 +81,41 @@ function* getPostByIdSaga(action) {
   }
 }
 
+function* updatePostSaga(action) {
+  console.log(action);
+  const s3ImgUpdate = (file) => {
+    console.log(file);
+    const params = {
+      ACL: 'public-read',
+      Body: file,
+      Bucket: S3_BUCKET,
+      Key: 'upload/' + action.payload.fileName,
+      ContentType: file.type,
+    };
+
+    myBucket
+      .putObject(params)
+      .on('httpUploadProgress', (evt, res) => {})
+      .send((err, data) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+  };
+
+  try {
+    yield call(() => s3ImgUpdate(action.payload.file));
+    // action.payload.post_img = `${s3Url + '/upload/' + fileName}`;
+    yield call(() => postsAPI.updatePost(action.payload.post));
+    yield put({ type: `${action.type}Success`, payload: action.payload });
+  } catch (err) {
+    yield put({ type: `${action.type}Failure`, payload: err });
+  }
+}
+
 export function* postsSaga() {
   yield takeLatest(getPosts, getPostsSaga);
   yield takeLatest(addPost, addPostSaga);
   yield takeLatest(getPostById, getPostByIdSaga);
+  yield takeLatest(updatePost, updatePostSaga);
 }

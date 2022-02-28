@@ -34,3 +34,25 @@ export const getPostById = async (post_id) => {
     alert(err.response.data.msg);
   }
 };
+
+export const updatePost = async ({
+  post_id,
+  post_img,
+  post_content,
+  img_position,
+}) => {
+  try {
+    const res = await client.put(`/post/${post_id}`, {
+      post_id,
+      post_img,
+      post_content,
+      img_position,
+    });
+    if (res.status === 200) {
+      alert('수정완료');
+      return res.data;
+    }
+  } catch (err) {
+    alert(err.response.data.msg);
+  }
+};

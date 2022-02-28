@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import useInputValue from '../../hooks/useInputValue';
-import { addPost } from '../../redux/modules/posts';
+import { addPost, getPosts } from '../../redux/modules/posts';
+import { useNavigate } from 'react-router-dom';
 
 const AddForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [imageSrc, setImageSrc] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -70,6 +72,10 @@ const AddForm = () => {
     };
 
     dispatch(addPost(payload));
+    dispatch(getPosts());
+    setTimeout(() => {
+      navigate('/');
+    }, 300);
   };
 
   return (

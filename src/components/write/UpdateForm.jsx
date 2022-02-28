@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 import useInputValue from '../../hooks/useInputValue';
-import { getPostById, updatePost } from '../../redux/modules/posts';
+import { getPostById, getPosts, updatePost } from '../../redux/modules/posts';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -90,7 +90,10 @@ const AddForm = () => {
     };
     // console.log(payload);
     dispatch(updatePost(payload));
-    navigate('/');
+    dispatch(getPosts());
+    setTimeout(() => {
+      navigate('/');
+    }, 200);
   };
 
   return (

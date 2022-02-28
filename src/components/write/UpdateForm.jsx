@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInputValue from '../../hooks/useInputValue';
 import { getPostById, updatePost } from '../../redux/modules/posts';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
 
   const { id: post_id } = params;
@@ -16,11 +17,9 @@ const AddForm = () => {
   const postData = useSelector(({ posts }) => {
     return posts.post;
   });
-
   useEffect(() => {
     dispatch(getPostById(post_id));
   }, [dispatch]);
-
   const [imageSrc, setImageSrc] = useState(postData.imgUrl);
   const [selectedFile, setSelectedFile] = useState(null);
   const [Layout, setLayout] = useState(postData.imgPosition);
@@ -91,6 +90,7 @@ const AddForm = () => {
     };
     // console.log(payload);
     dispatch(updatePost(payload));
+    navigate('/');
   };
 
   return (

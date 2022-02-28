@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BsHeartFill } from 'react-icons/bs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchLike } from '../../redux/modules/like';
 
 const PostFooter = ({ postData }) => {
   const dispatch = useDispatch();
   const uploadDate = postData.upload_date.split('T')[0];
 
-  const handleLikeBtn = () => {
+  const handleLikeBtn = (e) => {
+    e.stopPropagation();
     dispatch(fetchLike(postData.post_id));
   };
+
+  const isLike = useSelector(({ like }) => {
+    return like.isLike;
+  });
+
+  console.log(isLike);
 
   return (
     <PostFooterWrapper>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 import useInputValue from '../../hooks/useInputValue';
-import { addPost, getPostById } from '../../redux/modules/posts';
+import { getPostById, updatePost } from '../../redux/modules/posts';
 
 import { useParams } from 'react-router-dom';
 
@@ -12,15 +12,14 @@ const AddForm = () => {
   const params = useParams();
 
   const { id: post_id } = params;
+
   const postData = useSelector(({ posts }) => {
     return posts.post;
   });
 
-  console.log(postData);
-
   useEffect(() => {
     dispatch(getPostById(post_id));
-  }, []);
+  }, [dispatch]);
 
   const [imageSrc, setImageSrc] = useState(postData.imgUrl);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -70,6 +69,11 @@ const AddForm = () => {
       return;
     }
 
+    if (!selectedFile) {
+      alert('이미지를 다시 선택해주세요');
+      return;
+    }
+
     if (!postContent) {
       alert('내용을 적어주세요');
       return;
@@ -77,11 +81,16 @@ const AddForm = () => {
 
     const payload = {
       file: selectedFile,
-      img_position: Layout,
-      post_img: '',
-      post_content: postContent,
+      fileName: postData.imgUrl.split('/')[4],
+      post: {
+        post_id,
+        post_img: postData.imgUrl,
+        post_content: postContent,
+        img_position: Layout,
+      },
     };
-    console.log(payload);
+    // console.log(payload);
+    dispatch(updatePost(payload));
   };
 
   return (

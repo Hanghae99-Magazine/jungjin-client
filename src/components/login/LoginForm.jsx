@@ -1,9 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useInputValue from '../../hooks/useInputValue';
 import { login } from '../../redux/modules/user';
+import CommonInput from '../common/CommonInput';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -26,18 +27,16 @@ const LoginForm = () => {
   };
   return (
     <LoginFormWrapper onSubmit={loginUser}>
-      <input
+      <CommonInput
         id="userId"
         type="id"
         placeholder="아이디"
-        autoComplete="off"
         onChange={userId.onChange}
       />
-      <input
+      <CommonInput
         id="password"
         type="password"
         placeholder="비밀번호"
-        autoComplete="off"
         onChange={userPw.onChange}
       />
       <button id="loginBtn" className="login-btn" type="submit">
@@ -55,20 +54,7 @@ const LoginFormWrapper = styled.form`
   font-size: 1.4rem;
   gap: 2rem;
   margin: 3rem;
-  input {
-    width: 300px;
-    display: block;
-    border: 1px solid #000;
-    margin: 20px 30px 0px;
-    color: #000;
-    padding: 15px 10px;
-    border-radius: 5px;
-    font-size: 1.6rem;
-  }
-  input::placeholder {
-    font-size: 1.6rem;
-    color: #8c8c8c;
-  }
+
   .login-btn {
     width: 300px;
     margin: 20px 30px;

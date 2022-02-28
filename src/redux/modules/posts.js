@@ -44,6 +44,21 @@ const postsSlice = createSlice({
       state.loading = false;
       state.err = action.payload;
     },
+    getPostById(state) {
+      state.loading = true;
+      state.err = null;
+    },
+    getPostByIdSuccess(state, action) {
+      state.loading = false;
+      state.err = null;
+      state.post.imgUrl = action.payload.post.post_img;
+      state.post.content = action.payload.post.post_content;
+      state.post.imgPosition = action.payload.post.img_position;
+    },
+    getPostByIdFailure(state, action) {
+      state.loading = false;
+      state.err = action.payload;
+    },
   },
 });
 
@@ -54,6 +69,9 @@ export const {
   addPost,
   addPostSuccess,
   addPostFailure,
+  getPostById,
+  getPostByIdSuccess,
+  getPostByIdFailure,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

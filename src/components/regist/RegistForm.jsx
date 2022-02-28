@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as userAPI from '../../api/user';
 import useInputValue from '../../hooks/useInputValue';
+import CommonInput from '../common/CommonInput';
 
 const RegistForm = () => {
   const navigate = useNavigate();
@@ -49,37 +50,34 @@ const RegistForm = () => {
 
     const res = await userAPI.register(payload);
 
-    alert(res.data.msg);
-    navigate('/login');
+    if (res.status === 200) {
+      navigate('/login');
+    }
   };
   return (
     <RegistFormWrapper onSubmit={registUser}>
-      <input
+      <CommonInput
         id="userId"
         type="id"
         placeholder="아이디"
-        autoComplete="off"
         onChange={userId.onChange}
       />
-      <input
+      <CommonInput
         id="password"
         type="password"
         placeholder="비밀번호"
-        autoComplete="off"
         onChange={userPw.onChange}
       />
-      <input
+      <CommonInput
         id="passwordConfirm"
         type="password"
         placeholder="비밀번호 확인"
-        autoComplete="off"
         onChange={userPwConfirm.onChange}
       />
-      <input
+      <CommonInput
         id="nickName"
         type="text"
         placeholder="닉네임"
-        autoComplete="off"
         onChange={nickname.onChange}
       />
       <button id="registBtn" className="regist-btn" type="submit">
@@ -97,20 +95,6 @@ const RegistFormWrapper = styled.form`
   font-size: 1.4rem;
   gap: 2rem;
   margin: 3rem;
-  input {
-    width: 300px;
-    display: block;
-    border: 1px solid #000;
-    margin: 20px 30px 0px;
-    color: #000;
-    padding: 15px 10px;
-    border-radius: 5px;
-    font-size: 1.6rem;
-  }
-  input::placeholder {
-    font-size: 1.6rem;
-    color: #8c8c8c;
-  }
   .regist-btn {
     width: 300px;
     margin: 20px 30px;

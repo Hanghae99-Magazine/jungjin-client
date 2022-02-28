@@ -2,7 +2,7 @@ import * as userAPI from '../api/user';
 
 import { put, call, takeLatest } from 'redux-saga/effects';
 import { login, logout, checkLogin } from '../redux/modules/user';
-import { deleteCookie, setCookie } from '../shared/Cookie';
+import { deleteCookie, setCookie } from '../shared/cookie';
 
 //saga
 

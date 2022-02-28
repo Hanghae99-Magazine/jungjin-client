@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import AWS from 'aws-sdk';
+import { useDispatch } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { uploadImg } from '../../redux/modules/image';
 import useInputValue from '../../hooks/useInputValue';
 import { addPost } from '../../redux/modules/posts';
-import { v4 as uuidv4 } from 'uuid';
 
 const AddForm = () => {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import * as postsAPI from '../api/posts';
 
-import { put, call, takeLatest } from 'redux-saga/effects';
+import { put, call, takeLatest, delay } from 'redux-saga/effects';
 import {
   addPost,
   getPosts,
@@ -59,7 +59,7 @@ function* addPostSaga(action) {
       .on('httpUploadProgress', (evt, res) => {})
       .send((err, data) => {
         if (err) {
-          console.error(err);
+          return err.response;
         }
       });
   };
@@ -68,8 +68,9 @@ function* addPostSaga(action) {
     action.payload.post_img = `${s3Url + '/upload/' + fileName}`;
     yield call(() => postsAPI.addPost(action.payload));
     yield put({ type: `${action.type}Success`, payload: action.payload });
+    yield delay(300);
     const postsData = yield call(() => postsAPI.getPosts());
-    yield put({ type: `getPostsSuccess`, payload: postsData.data.posts });
+    yield put({ type: `getPosts`, payload: postsData.data.posts });
   } catch (err) {
     yield put({ type: `${action.type}Failure`, payload: err });
   }
@@ -85,9 +86,7 @@ function* getPostByIdSaga(action) {
 }
 
 function* updatePostSaga(action) {
-  console.log(action);
   const s3ImgUpdate = (file) => {
-    console.log(file);
     const params = {
       ACL: 'public-read',
       Body: file,
@@ -101,7 +100,7 @@ function* updatePostSaga(action) {
       .on('httpUploadProgress', (evt, res) => {})
       .send((err, data) => {
         if (err) {
-          console.error(err);
+          return err.response;
         }
       });
   };
@@ -117,15 +116,10 @@ function* updatePostSaga(action) {
 }
 
 function* deletePostSaga(action) {
-  console.log(action);
   const s3ImgDelete = (file) => {
-    console.log(file);
     const params = {
-      // ACL: 'public-read',
-      // Body: file,
       Bucket: S3_BUCKET,
       Key: 'upload/' + action.payload.fileName,
-      // ContentType: file.type,
     };
 
     myBucket
@@ -133,7 +127,7 @@ function* deletePostSaga(action) {
       .on('httpUploadProgress', (evt, res) => {})
       .send((err, data) => {
         if (err) {
-          console.error(err);
+          return err.response;
         }
       });
   };

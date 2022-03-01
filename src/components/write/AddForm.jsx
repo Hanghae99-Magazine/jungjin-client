@@ -73,9 +73,8 @@ const AddForm = () => {
 
     dispatch(addPost(payload));
     dispatch(getPosts());
-    setTimeout(() => {
-      navigate('/');
-    }, 300);
+    alert('작성 완료');
+    navigate('/');
   };
 
   return (

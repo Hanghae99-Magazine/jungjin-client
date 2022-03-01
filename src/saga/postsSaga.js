@@ -11,7 +11,6 @@ import {
 
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
 
 // AWS S3 연결을 위한 변수 할당
 const S3_BUCKET = 'jungjinmagazine';

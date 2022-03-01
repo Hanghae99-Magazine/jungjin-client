@@ -19,7 +19,7 @@ const AddForm = () => {
   });
   useEffect(() => {
     dispatch(getPostById(post_id));
-  }, [dispatch]);
+  }, [dispatch, post_id]);
   const [imageSrc, setImageSrc] = useState(postData.imgUrl);
   const [selectedFile, setSelectedFile] = useState(null);
   const [Layout, setLayout] = useState(postData.imgPosition);

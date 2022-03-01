@@ -38,18 +38,4 @@ const DefaultWrapper = styled.div`
   }
 `;
 
-const LeftLayout = styled.div`
-  padding: 0.5rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  .post-img-box {
-    width: 70%;
-    .post-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-`;
 export default DefaultLayout;

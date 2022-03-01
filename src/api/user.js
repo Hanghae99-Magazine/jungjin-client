@@ -20,7 +20,6 @@ export const register = async ({ user_id, user_pw, nickname, pw_check }) => {
     });
     return res;
   } catch (err) {
-    console.log(err.response);
     alert(err.response.data.msg);
     return err.response;
   }

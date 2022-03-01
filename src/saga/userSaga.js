@@ -11,7 +11,6 @@ function* loginSaga(action) {
     const res = yield call(() => userAPI.login(action.payload));
     setCookie('mytoken', res.data.mytoken, 3);
     sessionStorage.setItem('nickname', res.data.nickname);
-    console.log(action.payload);
     yield put({ type: `${action.type}Success`, payload: res.data.nickname });
   } catch (err) {
     yield put({ type: `${action.type}Failure`, payload: action.payload });

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsHeartFill } from 'react-icons/bs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchLike } from '../../redux/modules/like';
 
 const PostFooter = ({ postData }) => {
@@ -15,8 +15,7 @@ const PostFooter = ({ postData }) => {
 
   const uploadDate = postData.upload_date.split('T')[0];
 
-  const handleLikeBtn = (e) => {
-    console.log(postData.post_id);
+  const handleLikeBtn = () => {
     dispatch(fetchLike(postData.post_id));
     setLike(!validate);
   };

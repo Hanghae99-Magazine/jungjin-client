@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import AWS from 'aws-sdk';
+import { useDispatch } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { uploadImg } from '../../redux/modules/image';
 import useInputValue from '../../hooks/useInputValue';
-import { addPost } from '../../redux/modules/posts';
-import { v4 as uuidv4 } from 'uuid';
+import { addPost, getPosts } from '../../redux/modules/posts';
+import { useNavigate } from 'react-router-dom';
 
 const AddForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [imageSrc, setImageSrc] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -73,6 +72,9 @@ const AddForm = () => {
     };
 
     dispatch(addPost(payload));
+    dispatch(getPosts());
+    alert('작성 완료');
+    navigate('/');
   };
 
   return (

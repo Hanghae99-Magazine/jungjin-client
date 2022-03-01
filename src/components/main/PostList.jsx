@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getPosts } from '../../redux/modules/posts';
-import PostItme from './PostItme';
+import PostItem from './PostItem';
 
 const PostList = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const PostList = () => {
   return (
     <PostListWrapper>
       {postsList &&
-        postsList.map((post, i) => <PostItme key={i} postData={post} />)}
+        postsList.map((post, i) => <PostItem key={i} postData={post} />)}
     </PostListWrapper>
   );
 };

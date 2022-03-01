@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,11 +9,9 @@ const CommonHeader = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isLogin = useCallback(
-    useSelector(({ user }) => {
-      return user.isLogin;
-    }),
-  );
+  const isLogin = useSelector(({ user }) => {
+    return user.isLogin;
+  });
 
   const routeMain = () => {
     navigate('/');

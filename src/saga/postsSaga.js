@@ -1,6 +1,7 @@
 import * as postsAPI from '../api/posts';
+import * as s3ImgAPI from '../api/s3Image';
 
-import { put, call, takeLatest, delay } from 'redux-saga/effects';
+import { put, call, takeLatest } from 'redux-saga/effects';
 import {
   addPost,
   getPosts,
@@ -10,7 +11,6 @@ import {
 } from '../redux/modules/posts';
 
 import { v4 as uuidv4 } from 'uuid';
-import * as s3ImgAPI from '../shared/image';
 
 function* getPostsSaga(action) {
   try {

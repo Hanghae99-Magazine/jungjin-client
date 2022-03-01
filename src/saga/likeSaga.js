@@ -7,9 +7,10 @@ import { fetchLike } from '../redux/modules/like';
 
 function* fetchLikeSaga(action) {
   try {
+    console.log(action.payload);
     const res = yield call(() => likeAPI.fetchLike(action.payload));
-    console.log(res);
-    yield put({ type: `${action.type}Success`, payload: res.data.like_check });
+    // console.log(res);
+    yield put({ type: `${action.type}Success`, payload: res.data });
   } catch (err) {
     yield put({ type: `${action.type}Failure`, payload: err });
   }

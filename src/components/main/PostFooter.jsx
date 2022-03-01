@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsHeartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,24 +6,29 @@ import { fetchLike } from '../../redux/modules/like';
 
 const PostFooter = ({ postData }) => {
   const dispatch = useDispatch();
+
+  const nickname = sessionStorage.getItem('nickname');
+
+  const validate = postData.like_list.includes(nickname);
+
+  const [like, setLike] = useState(validate);
+
   const uploadDate = postData.upload_date.split('T')[0];
 
   const handleLikeBtn = (e) => {
-    e.stopPropagation();
+    console.log(postData.post_id);
     dispatch(fetchLike(postData.post_id));
+    setLike(!validate);
   };
-
-  const isLike = useSelector(({ like }) => {
-    return like.isLike;
-  });
-
-  console.log(isLike);
 
   return (
     <PostFooterWrapper>
       <div className="like-box">
-        <BsHeartFill className="like-icon" onClick={handleLikeBtn} />
-        <span>{postData.post_like}</span>
+        {!like ? (
+          <BsHeartFill className="unlike-btn" onClick={handleLikeBtn} />
+        ) : (
+          <BsHeartFill className="like-btn" onClick={handleLikeBtn} />
+        )}
       </div>
       <div className="date-box">
         <p>{uploadDate}</p>
@@ -41,12 +46,13 @@ const PostFooterWrapper = styled.div`
     display: flex;
     gap: 0.5rem;
   }
-  .like-icon {
+  .unlike-btn {
     color: #000;
     cursor: pointer;
   }
-
-  .date-vox {
+  .like-btn {
+    color: #f00;
+    cursor: pointer;
   }
 `;
 

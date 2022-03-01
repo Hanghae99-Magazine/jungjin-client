@@ -8,7 +8,6 @@ import RightLayout from './RightLayout';
 import PostFooter from './PostFooter';
 
 const PostItem = ({ postData }) => {
-  console.log(postData);
   const headerProps = {
     post_id: postData.post_id,
     nickname: postData.nickname,
@@ -25,6 +24,8 @@ const PostItem = ({ postData }) => {
     upload_date: postData.upload_date,
     post_id: postData.post_id,
     post_like: postData.post_like,
+    like_list: postData.like_list,
+    nickname: postData.nickname,
   };
 
   return (
